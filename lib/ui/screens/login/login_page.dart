@@ -43,13 +43,13 @@ class _LoginPage extends State<LoginPage> {
 
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Padding(
+            const Padding(
               padding: EdgeInsets.fromLTRB(8,8,8,40),
               child:  Text(
                 'Connect to the Motus server',style: TextStyle(fontSize: 24),
               ),
             ),
-           Padding(
+           const Padding(
              padding: EdgeInsets.all(8),
              child:  TextField(
                decoration: InputDecoration(
@@ -57,7 +57,7 @@ class _LoginPage extends State<LoginPage> {
                ),
              ),
            ),
-            Padding(
+            const Padding(
               padding: EdgeInsets.all(8),
               child:  TextField(
                 obscureText: true,
