@@ -18,7 +18,7 @@ class TrashRepository{
   TrashRepository._();
 
   Future<Trash> insertWord(Trash trash) async {
-    await _trashHive?.insertWord(trash);
+    await _trashHive?.insertTrash(trash);
     return trash;
   }
 }
