@@ -1,8 +1,6 @@
 import 'package:app_motus/data/entities/trash/trash.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-import '../../entities/word.dart';
-
 class TrashHive {
   static TrashHive? _instance;
   static Box<Trash>? _box;
