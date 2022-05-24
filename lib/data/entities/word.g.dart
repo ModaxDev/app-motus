@@ -18,18 +18,27 @@ class WordAdapter extends TypeAdapter<Word> {
     };
     return Word(
       fields[0] as int?,
-      fields[1] as int?,
+      fields[1] as String?,
+      fields[2] as String?,
+      fields[3] as bool?,
+      fields[4] as DateTime?,
     );
   }
 
   @override
   void write(BinaryWriter writer, Word obj) {
     writer
-      ..writeByte(2)
+      ..writeByte(5)
       ..writeByte(0)
-      ..write(obj.x)
+      ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.y);
+      ..write(obj.text)
+      ..writeByte(2)
+      ..write(obj.textlenght)
+      ..writeByte(3)
+      ..write(obj.alreadyuse)
+      ..writeByte(4)
+      ..write(obj.activedate);
   }
 
   @override
