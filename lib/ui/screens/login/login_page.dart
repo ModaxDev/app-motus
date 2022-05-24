@@ -22,6 +22,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPage extends State<LoginPage> {
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -38,7 +39,54 @@ class _LoginPage extends State<LoginPage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: Text('Login'),
+        child: Column(
+
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: EdgeInsets.fromLTRB(8,8,8,40),
+              child:  Text(
+                'Connect to the Motus server',style: TextStyle(fontSize: 24),
+              ),
+            ),
+           Padding(
+             padding: EdgeInsets.all(8),
+             child:  TextField(
+               decoration: InputDecoration(
+                 hintText: 'Enter your username',
+               ),
+             ),
+           ),
+            Padding(
+              padding: EdgeInsets.all(8),
+              child:  TextField(
+                obscureText: true,
+                enableSuggestions: false,
+                autocorrect: false,
+                decoration: InputDecoration(
+                  hintText: 'Enter your password',
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(8,8,8,40),
+              child:  SizedBox(
+                width: double.infinity,
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                    textStyle: const TextStyle(color: Colors.white),
+                  ),
+                  onPressed: () {},
+                  child: const Text('Login', style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                  )),
+                ),
+              )
+            ),
+          ],
+        ),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
