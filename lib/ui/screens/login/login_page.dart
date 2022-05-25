@@ -13,13 +13,18 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
+
   @override
   Widget build(BuildContext context) {
+    SignInAnSignUpViewModel viewModel2 = context.read<SignInAnSignUpViewModel>();
+
+    viewModel2.IsSignIn();
+
     return Scaffold(
       body: Consumer<SignInAnSignUpViewModel>(
           builder: (context, viewModel, child) {
             viewModel.addListener(() {
-              if(viewModel.user != null){
+              if(viewModel.isSignIn != null){
                 context.beamToNamed('/home');
               }
             });

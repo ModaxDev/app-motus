@@ -1,6 +1,8 @@
 import 'package:app_motus/data/entities/word.dart';
 import 'package:app_motus/ui/screens/home/my_home_page_viewmodel.dart';
+import 'package:app_motus/ui/widgets/grid.dart';
 import 'package:app_motus/ui/widgets/letter.dart';
+import 'package:app_motus/ui/widgets/row_letter.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -73,14 +75,8 @@ class _HomePage extends State<HomePage> {
             Padding(
               padding: EdgeInsets.all(8),
               child: Consumer<HomePageViewModel>(
-                builder: (context, model, child) => Row(
-                  children: [
-                    for (var i in model.listWord!)
-                       Letter(
-                        letter: i,
-                      )
-                  ],
-                ),
+                builder: (context, model, child) =>
+                    Grid(listWord: model.listWord!, currentRow: 1)
               ),
             ),
           ],
