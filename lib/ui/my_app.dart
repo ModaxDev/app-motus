@@ -1,29 +1,42 @@
+import 'package:app_motus/ui/screens/home/home_page.dart';
 import 'package:app_motus/ui/screens/home/my_home_page.dart';
 import 'package:app_motus/ui/screens/login/login_page.dart';
 import 'package:app_motus/ui/screens/platane/my_platane.dart';
+import 'package:beamer/beamer.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+   MyApp({Key? key}) : super(key: key);
+
+  final BeamerDelegate routerDelegate = BeamerDelegate(
+    locationBuilder: RoutesLocationBuilder(
+      routes: {
+        '/': (context, state, data) => LoginPage(),
+        '/home': (context, state, data) => HomePage(title: "ok"),
+        '/profil/:user': (context, state, data) {
+          final User user = data as User;
+          return BeamPage(child: Text(user.uid));
+        }
+      },
+    ),
+  );
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
+      routeInformationParser: BeamerParser(),
+      routerDelegate: routerDelegate,
       title: 'Flutter Demo',
+      backButtonDispatcher:
+          BeamerBackButtonDispatcher(delegate: routerDelegate),
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const LoginPage(title: 'Login Page'),
+      darkTheme: ThemeData(
+        primarySwatch: Colors.amber,
+      ),
     );
   }
 }
