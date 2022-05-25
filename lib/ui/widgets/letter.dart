@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Letter extends StatefulWidget {
-  const Letter({Key? key, required this.letter}) : super(key: key);
+  const Letter({Key? key, required this.letter, required this.letters, required this.onLetterSelected,  required this.index, required this.isEnabled})
+      : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -11,8 +12,15 @@ class Letter extends StatefulWidget {
   // case the title) provided by the parent (in this case the App widget) and
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
+  final bool isEnabled;
 
   final String letter;
+
+  final int letters;
+
+  final int index;
+
+  final Function onLetterSelected;
 
   @override
   State<Letter> createState() => _Letter();
@@ -21,11 +29,13 @@ class Letter extends StatefulWidget {
 class _Letter extends State<Letter> {
   late TextEditingController _controller;
 
+  final zwsp = '\u200b';
+
   void initState() {
     super.initState();
-
-    _controller = TextEditingController(text: widget.letter);
+    _controller = TextEditingController(text: zwsp + widget.letter);
   }
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -35,14 +45,31 @@ class _Letter extends State<Letter> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     // return widget
+    FocusNode fNode = FocusNode();
     return SizedBox(
-        width: 40,
+        width: MediaQuery.of(context).size.width / widget.letters * .9,
         child: Container(
-          padding: EdgeInsets.fromLTRB(5,0,5,0),
-          child: TextField(
+          margin: EdgeInsets.all(2),
+          child: TextFormField(
+              focusNode: fNode,
+              autofocus: true,
+              textInputAction: TextInputAction.next,
+              onChanged: (value) {
+                if (value.length == 0) {
+                  _controller.text = zwsp;
+                }
+                if (value.length > 1 && widget.index < widget.letters - 1) {
+                  FocusScope.of(context).nextFocus();
+                }
+                if(value.length < 2 && widget.index > 0) {
+                  FocusScope.of(context).previousFocus();
+                }
+                widget.onLetterSelected(value.substring(1), widget.index);
+              },
               controller: _controller,
-              maxLength: 1,
-              decoration: InputDecoration(contentPadding: EdgeInsets.all(10))),
+              maxLength: 2,
+              enabled: widget.isEnabled,
+              decoration: InputDecoration(contentPadding: EdgeInsets.all(5))),
         ));
   }
 }

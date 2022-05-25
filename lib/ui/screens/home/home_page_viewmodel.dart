@@ -18,7 +18,7 @@ class HomePageViewModel with ChangeNotifier {
 
   String? get word => _word;
 
-  List<String>? _listWord;
+  List<String>? _listWord = [];
 
   List<String>? get listWord => _listWord;
 
@@ -32,6 +32,7 @@ class HomePageViewModel with ChangeNotifier {
 
 
   Future<void> getRandomWordFromDico() async {
+    _listWord = [];
     String dico = await rootBundle.loadString('assets/files/dico.txt');
     _listDico = dico.split('\n').where((element) => element.length > 5).toList();
     String theWord = _listDico[Random().nextInt(_listDico.length)];
