@@ -8,6 +8,7 @@ class GameWidget extends StatefulWidget {
   const GameWidget({
     Key? key,
     required this.listWord,
+    required this.onNewGame,
   }) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
@@ -21,27 +22,43 @@ class GameWidget extends StatefulWidget {
 
   final List<String> listWord;
 
+  final Function onNewGame;
+
   @override
   State<GameWidget> createState() => _Game();
 }
 
 class _Game extends State<GameWidget> {
-
   bool isEndGame = false;
   int tries = 0;
+  int score = 0;
+
   @override
   Widget build(BuildContext context) {
-    if(isEndGame){
-      return Center(
-        child: Text("Game End in $tries tries"),
+    if (isEndGame) {
+      return Column(
+        children: [Text("Game End in $tries tries" + " with score $score"),
+        TextButton(onPressed: () => setState(() {
+          isEndGame = false;
+          score = 0;
+        }), child: Text('Restart')),
+          TextButton(onPressed: () => setState(() {
+            widget.onNewGame();
+            isEndGame = false;
+          }), child: Text('Continue to play'))
+
+
+        ],
       );
     }
 
     return Grid(
       onWin: (value) {
         setState(() {
-          tries = value+1;
+          tries = value + 1;
           isEndGame = true;
+          //divide 100 by the number of tries
+          score = score+100 ~/ tries;
         });
       },
       listWord: widget.listWord,
