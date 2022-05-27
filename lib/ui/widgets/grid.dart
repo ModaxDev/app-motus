@@ -1,10 +1,8 @@
 import 'package:app_motus/ui/widgets/row_letter.dart';
 import 'package:flutter/material.dart';
 
-import 'letter.dart';
-
 class Grid extends StatefulWidget {
-  const Grid({Key? key, required this.listWord, required this.currentRow}) : super(key: key);
+  const Grid({Key? key, required this.listWord, required this.limitTries,required this.onWin}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -15,8 +13,11 @@ class Grid extends StatefulWidget {
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
 
+  final Function onWin;
+
   final List<String> listWord;
-  final int currentRow;
+
+  final int limitTries;
 
   @override
   State<Grid> createState() => _Grid();
@@ -24,6 +25,8 @@ class Grid extends StatefulWidget {
 
 class _Grid extends State<Grid> {
   @override
+  int currentRow = 0;
+
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
@@ -34,8 +37,46 @@ class _Grid extends State<Grid> {
     // return widget
     return Column(
       children: [
-        for(int i = 0; i < 5; i++)
-          i == 0 ? RowLetter(currentSelectedRowIndex: widget.currentRow,rowIndex: i,word: widget.listWord, printWord: false,isRowSelected: true,) : RowLetter(currentSelectedRowIndex: widget.currentRow,rowIndex: i,word: widget.listWord, printWord: false,isRowSelected: true,)
+        for (int i = 0; i < widget.limitTries; i++)
+          i == 0
+              ? RowLetter(
+                  isFinished: () {
+                    setState(() {
+                      currentRow = -1;
+                      widget.onWin();
+                    });
+                  },
+                  isEndRow: () {
+                    setState(() {
+                      currentRow++;
+                      if(currentRow == widget.limitTries) widget.onWin();
+                    });
+                  },
+                  currentSelectedRowIndex: currentRow,
+                  rowIndex: i,
+                  word: widget.listWord,
+                  printWord: false,
+                  isRowSelected: true,
+                )
+              : RowLetter(
+                  isFinished: () {
+                    setState(() {
+                      currentRow = -1;
+                      widget.onWin();
+                    });
+                  },
+                  isEndRow: () {
+                    setState(() {
+                      currentRow++;
+                      if(currentRow == widget.limitTries) widget.onWin();
+                    });
+                  },
+                  currentSelectedRowIndex: currentRow,
+                  rowIndex: i,
+                  word: widget.listWord,
+                  printWord: false,
+                  isRowSelected: true,
+                )
       ],
     );
   }
