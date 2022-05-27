@@ -17,28 +17,19 @@ class WordAdapter extends TypeAdapter<Word> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Word(
-      fields[0] as int?,
       fields[1] as String?,
-      fields[2] as String?,
-      fields[3] as bool?,
-      fields[4] as DateTime?,
+      fields[2] as DateTime?,
     );
   }
 
   @override
   void write(BinaryWriter writer, Word obj) {
     writer
-      ..writeByte(5)
-      ..writeByte(0)
-      ..write(obj.id)
+      ..writeByte(2)
       ..writeByte(1)
       ..write(obj.text)
       ..writeByte(2)
-      ..write(obj.textlenght)
-      ..writeByte(3)
-      ..write(obj.alreadyuse)
-      ..writeByte(4)
-      ..write(obj.activedate);
+      ..write(obj.activeDate);
   }
 
   @override

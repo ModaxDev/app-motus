@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
 
 import 'letter.dart';
 
 class RowLetter extends StatefulWidget {
-  const RowLetter({Key? key, this.word, required this.printWord, required this.isRowSelected, required this.rowIndex, required this.currentSelectedRowIndex }) : super(key: key);
+  const RowLetter(
+      {Key? key,
+      this.word,
+      required this.printWord,
+      required this.isEndRow,
+      required this.isRowSelected,
+      required this.isFinished,
+      required this.rowIndex,
+      required this.currentSelectedRowIndex})
+      : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -19,38 +29,51 @@ class RowLetter extends StatefulWidget {
   final bool isRowSelected;
   final int rowIndex;
   final int currentSelectedRowIndex;
+  final Function isEndRow;
+  final Function isFinished;
 
   @override
   State<RowLetter> createState() => _RowLetter();
 }
 
 class _RowLetter extends State<RowLetter> {
+
+  bool isFinish = false;
   @override
   Widget build(BuildContext context) {
-
     //create list of string
-    List<String> listWord = [];
+    Map<int, String> listWord = Map<int, String>();
 
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    // return widget
     return Row(
       children: [
-
         for (var i = 0; i < widget.word!.length; i++)
           Letter(
-            onLetterSelected: (letter, index) {
-              print('list $letter $index');
-              listWord.add(letter);
+            isWin: isFinish,
+            rowIndex: widget.rowIndex,
+            currentRowIndex: widget.currentSelectedRowIndex,
+            letterSubmitValidation: "",
+            onWordFinished: () {
+              String? word = widget.word![0] + listWord.values.join();
+              if (word.toUpperCase() != widget.word!.join().toString().toUpperCase()) {
+                widget.isEndRow();
+              }else{
+                isFinish = true;
+                widget.isFinished();
+              }
             },
-            isEnabled: widget.rowIndex == widget.currentSelectedRowIndex,
+            onLetterSelected: (letter, index) {
+              listWord.addAll({index: letter});
+            },
+            isEnabled: i == 0
+                ? false
+                : widget.rowIndex == widget.currentSelectedRowIndex,
             index: i,
-            letters: widget.word!.length,
-            letter: widget.printWord ? widget.word![i] : '',
+            letters: widget.word!,
+            letter: i == 0
+                ? widget.word![i]
+                : widget.printWord
+                    ? widget.word![i]
+                    : '',
           )
       ],
     );

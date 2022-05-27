@@ -15,12 +15,6 @@ class MyHomePageViewModel with ChangeNotifier {
   //list string public var
   List<String> get listString => _listString;
 
-  Future<void> insertWord(Word word) async {
-    WordRepository repository = await WordRepository.getInstance();
-    repository.insertWord(word);
-    _word = word;
-    notifyListeners();
-  }
 
 
   Future<void> loadDictionnary() async {

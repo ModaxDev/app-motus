@@ -28,4 +28,8 @@ class UserRepository {
   Future<bool> isSignIn() async {
     return await _userFirstore.isSignIn();
   }
+
+  User? currentUser() {
+    return  _userFirstore.getCurrentUser();
+  }
 }
