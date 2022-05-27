@@ -64,6 +64,7 @@ class _HomePage extends State<HomePage> {
               padding: EdgeInsets.all(8),
               child: Consumer<HomePageViewModel>(
                   builder: (context, model, child) => GameWidget(
+                    onNewGame: () => model.getRandomWordFromDico(model.currentUser()!),
                         listWord: model.listWord!
                       )),
             ),

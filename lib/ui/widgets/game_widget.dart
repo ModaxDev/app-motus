@@ -8,45 +8,45 @@ class GameWidget extends StatefulWidget {
   const GameWidget({
     Key? key,
     required this.listWord,
+    required this.onNewGame,
   }) : super(key: key);
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
   final List<String> listWord;
+
+  final Function onNewGame;
 
   @override
   State<GameWidget> createState() => _Game();
 }
 
 class _Game extends State<GameWidget> {
-
   bool isEndGame = false;
+  int tries = 0;
+  int score = 0;
+
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    // return widget
-    if(isEndGame){
-      return const Center(
-        child: Text("Game Over"),
+    if (isEndGame) {
+      return Column(
+        children: [Text("Game End in $tries tries" + " with score $score"),
+        TextButton(onPressed: () => setState(() {
+          isEndGame = false;
+          score = 0;
+        }), child: Text('Restart')),
+          TextButton(onPressed: () => setState(() {
+            widget.onNewGame();
+            isEndGame = false;
+          }), child: Text('Continue to play'))
+        ],
       );
     }
 
     return Grid(
-      onWin: () {
+      onWin: (value) {
         setState(() {
+          tries = value + 1;
           isEndGame = true;
+          score = score+100 ~/ tries;
         });
       },
       listWord: widget.listWord,
