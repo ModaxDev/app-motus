@@ -4,15 +4,6 @@ import 'package:flutter/material.dart';
 class Grid extends StatefulWidget {
   const Grid({Key? key, required this.listWord, required this.limitTries,required this.onWin}) : super(key: key);
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
   final Function onWin;
 
   final List<String> listWord;
@@ -28,13 +19,7 @@ class _Grid extends State<Grid> {
   int currentRow = 0;
 
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    // return widget
+
     return Column(
       children: [
         for (int i = 0; i < widget.limitTries; i++)
@@ -42,14 +27,13 @@ class _Grid extends State<Grid> {
               ? RowLetter(
                   isFinished: () {
                     setState(() {
-                      currentRow = -1;
-                      widget.onWin();
+                      widget.onWin(currentRow);
                     });
                   },
                   isEndRow: () {
                     setState(() {
                       currentRow++;
-                      if(currentRow == widget.limitTries) widget.onWin();
+                      if(currentRow == widget.limitTries) widget.onWin(currentRow);
                     });
                   },
                   currentSelectedRowIndex: currentRow,
@@ -61,14 +45,13 @@ class _Grid extends State<Grid> {
               : RowLetter(
                   isFinished: () {
                     setState(() {
-                      currentRow = -1;
-                      widget.onWin();
+                      widget.onWin(currentRow);
                     });
                   },
                   isEndRow: () {
                     setState(() {
                       currentRow++;
-                      if(currentRow == widget.limitTries) widget.onWin();
+                      if(currentRow == widget.limitTries) widget.onWin(currentRow);
                     });
                   },
                   currentSelectedRowIndex: currentRow,

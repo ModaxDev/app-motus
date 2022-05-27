@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
     locationBuilder: RoutesLocationBuilder(
       routes: {
         '/': (context, state, data) => LoginPage(),
-        '/home': (context, state, data) => HomePage(title: "ok"),
+        '/home': (context, state, data) => HomePage(title: "GAME"),
         '/profil/:user': (context, state, data) {
           final User user = data as User;
           return BeamPage(child: Text(user.uid));
